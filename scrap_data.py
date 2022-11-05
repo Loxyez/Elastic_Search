@@ -1,10 +1,11 @@
 from bs4 import BeautifulSoup
 import requests
 import pandas as pd
+import re
 
 # ref = https://stackpython.co/tutorial/web-scraping-python-beautifulsoup-requests
 
-cols = ['name', 'bio']
+cols = ['Name', 'Type', 'Skills', 'Bio']
 
 name_list = pd.read_csv(r'C:\Users\Puter\Documents\GitHub\Elastic_Search\Data_Dota2\name.csv')
 data = pd.DataFrame(columns= cols)
@@ -34,10 +35,25 @@ for i in name_list['name']:
         bio = soup.find_all('div', attrs={'style':'display:table-cell; font-style: italic;'})
         for ele in bio:
             bio = ele.text.strip()
-            
-        list_row = [str(name), str(bio)]
-        data = data.append(pd.Series(list_row, index=data.columns[:len(list_row)]), ignore_index = True)
+        
 
+        # Type
+        role = soup.find_all('a', attrs={'title': 'Role'})
+        list_role = []
+        for ele in role:
+            list_role.append(ele.text.strip())
+
+        # Skills
+        skills = soup.find_all('div', attrs={'style': 'font-weight:bold; font-size:110%; border-bottom:1px solid black; background:linear-gradient(-90deg, #1B1E21 -20%, #1B1E21 -20%, #1B1E21 -20%, #B44335) 90%; color:white; padding:3px 5px;'})
+        list_skill = []
+        for ele in skills:
+            ele = ele.text.strip()
+            ele = re.sub(r" Link.+[a-zA-Z]", '', ele)
+            ele = re.sub(' +', ' ', ele)
+            list_skill.append(ele)
+
+        list_row = [str(name), list_role, list_skill, str(bio)]
+        data = data.append(pd.Series(list_row, index=data.columns[:len(list_row)]), ignore_index = True)
         # Successful connection
         print(f"{i} Successful")
     elif res.status_code == 404:
