@@ -1,18 +1,15 @@
 from bs4 import BeautifulSoup
-from 
+from selenium import webdriver
 import requests
 import re
 
-url = "https://wildrift.leagueoflegends.com/en-us/champions/ahri/"
-bio_url = "https://universe.leagueoflegends.com/en_US/story/champion/ahri/"
+driver = webdriver.Edge()
 
-res = requests.get(url)
-res_bio = requests.get(bio_url)
-res.encoding = "utf-8"
-res_bio.encoding = "utf-8"
+driver.get('https://www.arenaofvalor.com/web2017/heroDetails.html?id=521')
 
-soup = BeautifulSoup(res.text, 'html.parser')
-soup_bio = BeautifulSoup(res_bio.text, 'html.parser')
+url = driver.page_source
+
+soup = BeautifulSoup(url)
 
 list_data = []
 
@@ -25,13 +22,12 @@ list_data = []
 #     ele = re.sub(' +', ' ', ele)
 #     list_data.append(ele)
 # print(list_data)
+for i in range (3):
 
-# bio = soup.find_all('h3', {'class': 'heading-08 ChampionDetailHero-module--championName--eyJEV'})
-# for ele in bio:
-#     bio = ele.text.strip()
-
-if res_bio.status_code == 200:
-
-    bio = soup_bio.find(id='CatchElement')
-
-    print(bio)
+    bio = soup.find_all('span', {'id': f'skill{i+1}name'})
+    # for ele in bio:
+    #     bio = ele.text.strip()
+    #     bio = re.sub(r'([^\w]League of Legends[^\w])', '', bio)
+    for ele in bio:
+        bio = ele.text.strip()
+        print(bio)

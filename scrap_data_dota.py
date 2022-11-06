@@ -61,4 +61,4 @@ for i in name_list['name']:
     else:
         print("Not both 200 and 404")
 
-data.to_csv('Data.csv', index=False)
+data.to_csv('Data_Dota.csv', index=False)
