@@ -7,7 +7,7 @@ import re
 
 cols = ['Name', 'Type', 'Skills', 'Bio']
 
-name_list = pd.read_csv(r'C:\Users\Puter\Documents\GitHub\Elastic_Search\Data_LOL\name.csv')
+name_list = pd.read_csv('/Users/kontawat/Documents/ICT/IR/Elastic_Search/Data_LOL/name.csv')
 data = pd.DataFrame(columns=cols)
 
 for i in name_list['name']:

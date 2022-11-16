@@ -2,12 +2,14 @@ from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 import re
+import shutil
+
 
 # ref = https://stackpython.co/tutorial/web-scraping-python-beautifulsoup-requests
 
-cols = ['Name', 'Type', 'Skills', 'Bio']
+cols = ['Name', 'Type', 'Skills', 'Bio', 'File_name']
 
-name_list = pd.read_csv(r'C:\Users\Puter\Documents\GitHub\Elastic_Search\Data_Dota2\name.csv')
+name_list = pd.read_csv('/Users/kontawat/Documents/ICT/IR/Elastic_Search/Data_Dota2/name.csv')
 data = pd.DataFrame(columns= cols)
 
 for i in name_list['name']:
@@ -52,10 +54,26 @@ for i in name_list['name']:
             ele = re.sub(' +', ' ', ele)
             list_skill.append(ele)
 
-        list_row = [str(name), list_role, list_skill, str(bio)]
+        images_character = soup.find('a', class_="image").findAll('img')
+        for image in images_character:
+            full_url = image.attrs['data-src']
+        r = requests.get(full_url, stream=True)
+        file_name = f"{name}_image.jpg"
+        if r.status_code == 200:                     #200 status code = OK
+            with open(f"./images/images_Dota2/" + file_name , 'wb') as f: 
+                r.raw.decode_content = True
+                shutil.copyfileobj(r.raw, f)
+        
+        
+        list_row = [str(name), list_role, list_skill, str(bio), str(file_name)]
         data = data.append(pd.Series(list_row, index=data.columns[:len(list_row)]), ignore_index = True)
+        
+        
         # Successful connection
         print(f"{i} Successful")
+
+
+
     elif res.status_code == 404:
         print(f"{i} Error 404 page not found")
     else:
