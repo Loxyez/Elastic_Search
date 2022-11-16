@@ -2,10 +2,12 @@ from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 import re
+import shutil
+
 
 # ref = https://stackpython.co/tutorial/web-scraping-python-beautifulsoup-requests
 
-cols = ['Name', 'Type', 'Skills', 'Bio']
+cols = ['Name', 'Type', 'Skills', 'Bio', 'File_name']
 
 name_list = pd.read_csv('/Users/kontawat/Documents/ICT/IR/Elastic_Search/Data_LOL/name.csv')
 data = pd.DataFrame(columns=cols)
@@ -45,7 +47,17 @@ for i in name_list['name']:
             role = ele.text.strip()
             role = re.sub(r'Legacy\n ', '', role)
 
-        list_row = [name, str(role), str(list_skill), bio]
+        # Save image 
+        images_url = soup.find('img', attrs={'class':'pi-image-thumbnail'}).attrs['src']
+        r = requests.get(images_url, stream=True)
+        file_name = f"{name}_image.png"
+        # 200 status code = OK
+        if r.status_code == 200:                
+            with open(f"./images/images_LoL/" + file_name , 'wb') as f: 
+                r.raw.decode_content = True
+                shutil.copyfileobj(r.raw, f)
+
+        list_row = [name, str(role), str(list_skill), bio, file_name]
         data = data.append(pd.Series(list_row, index=data.columns[:len(list_row)]), ignore_index = True)
 
         # Successful connection
