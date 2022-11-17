@@ -47,6 +47,8 @@ def download_image_lol(name):
         else:
             print("Can't download")
 
+    return file_name
+
 
 
 
@@ -101,13 +103,14 @@ if __name__ == "__main__":
             # # Save image from old website 
             # images_url = soup.find('img', attrs={'class':'pi-image-thumbnail'}).attrs['src']
             # r = requests.get(images_url, stream=True)
-            file_name = f"{name}_image.png"
+            # file_name = f"{name}_image.png"
             # # 200 status code = OK
             # if r.status_code == 200:                
             #     with open(f"./images/images_LoL/" + file_name , 'wb') as f: 
             #         r.raw.decode_content = True
             #         shutil.copyfileobj(r.raw, f)
-            download_image_lol(name)
+            
+            file_name = download_image_lol(name)
 
             list_row = [name, str(role), str(list_skill), bio, file_name]
             data = data.append(pd.Series(list_row, index=data.columns[:len(list_row)]), ignore_index = True)
