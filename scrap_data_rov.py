@@ -21,8 +21,10 @@ for i in name_list['name']:
 
     # Name
     name = soup.find('em')
+
     for ele in name:
         name = ele.text.strip()
+        
 
     # Skills
     list_skill = []
@@ -33,7 +35,13 @@ for i in name_list['name']:
             list_skill.append(skills)
 
     # Role
-    list_role = []
+    title = soup.find('p', attrs={"class": "title"})
+    role = re.findall("<br\/>[A-Z]+<\/p>",str(title))
+    role = role[0].replace("<br/>", "")
+    role = role.replace("</p>", "").lower()
+
+    list_role = [role]
+    print(list_role)
 
     # Bio
     bio = soup.find_all('div', {'class': 'story-cont-wrap'})
@@ -49,7 +57,8 @@ for i in name_list['name']:
             r.raw.decode_content = True
             shutil.copyfileobj(r.raw, f)
 
-    list_row = [str(name), list_role, list_skill, str(bio), file_name]
+    list_row = [str(name), str(list_role), list_skill, str(bio), file_name]
     data = data.append(pd.Series(list_row, index=data.columns[:len(list_row)]), ignore_index = True)
+    # break
 
 data.to_csv('Data_ROV.csv', index=False)

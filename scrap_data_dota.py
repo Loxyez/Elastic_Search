@@ -43,7 +43,7 @@ for i in name_list['name']:
         role = soup.find_all('a', attrs={'title': 'Role'})
         list_role = []
         for ele in role:
-            list_role.append(ele.text.strip())
+            list_role.append(ele.text.strip().lower())
 
         # Skills
         skills = soup.find_all('div', attrs={'style': 'font-weight:bold; font-size:110%; border-bottom:1px solid black; background:linear-gradient(-90deg, #1B1E21 -20%, #1B1E21 -20%, #1B1E21 -20%, #B44335) 90%; color:white; padding:3px 5px;'})
@@ -59,7 +59,7 @@ for i in name_list['name']:
             full_url = image.attrs['data-src']
         r = requests.get(full_url, stream=True)
         file_name = f"{name}_image.jpg"
-        if r.status_code == 200:                     #200 status code = OK
+        if r.status_code == 200:                     # 200 status code = OK
             with open(f"./images/images_Dota2/" + file_name , 'wb') as f: 
                 r.raw.decode_content = True
                 shutil.copyfileobj(r.raw, f)

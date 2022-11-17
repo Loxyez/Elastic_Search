@@ -36,6 +36,7 @@ def download_image_lol(name):
             images_url = divs.find('img',attrs={'class':'style__NoScriptImg-g183su-0 cipsic'}).attrs['src']
         except:
             print(name + " Unsuccessful")
+
         r = requests.get(images_url, stream=True)
         file_name = f"{name}_image.png"
         # 200 status code = OK
@@ -100,6 +101,7 @@ if __name__ == "__main__":
                 role = ele.text.strip()
                 role = re.sub(r'Legacy\n ', '', role)
 
+            role = role.lower().split(" ")
             # # Save image from old website 
             # images_url = soup.find('img', attrs={'class':'pi-image-thumbnail'}).attrs['src']
             # r = requests.get(images_url, stream=True)
