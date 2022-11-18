@@ -4,10 +4,10 @@ from flask import render_template
 from elasticsearch import Elasticsearch
 import math
 
-ELASTIC_PASSWORD = "fillthis"
+ELASTIC_PASSWORD = "Kontawat1234"
 
-es = Elasticsearch("https://localhost:9200", http_auth=("elastic", ELASTIC_PASSWORD), verify_certs=False)
-app = Flask(__name__)
+es = Elasticsearch("https://localhost:5601", http_auth=("elastic", ELASTIC_PASSWORD), verify_certs=False)
+app = Flask(__name__,template_folder='template')
 
 @app.route('/')
 def index():
