@@ -22,10 +22,10 @@
         </div>
         <div class="col-12">
           <form class="col-md-6 offset-md-3 text-center" method="GET" action="{{ url_for('search') }}">
-            <select class="form-control" id="exampleFormControlSelect1">
-              <option>Dota2</option>
-              <option>LOL</option>
-              <option>ROV</option>
+            <select class="form-control" name="game_type">
+              <option value="herodota">Dota2</option>
+              <option value="herolol">League of legends</option>
+              <option value="herorov">Arena of valor</option>
             </select>
             <input type="text" class="form-control" name="keyword" placeholder="🔎︎ Type to search... ">
             <br>
