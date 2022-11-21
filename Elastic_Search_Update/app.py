@@ -57,4 +57,7 @@ def search():
     res = es.search(index=game_type, body=body)
     hits = [{'Name': doc['_source']['Name'], 'Bio': doc['_source']['Bio'], 'File_name': doc['_source']['File_name'], 'Type': doc['_source']['Type'], 'Skills': doc['_source']['Skills']} for doc in res['hits']['hits']]
     page_total = math.ceil(res['hits']['total']['value']/page_size)
-    return render_template('search.html', game_type=game_type, keyword=keyword, hits=hits, page_no=page_no, page_total=page_total, image_folder=dict_image_folder[game_type])
+    if page_total > 0:
+        return render_template('search.html', game_type=game_type, keyword=keyword, hits=hits, page_no=page_no, page_total=page_total, image_folder=dict_image_folder[game_type])
+    else:
+        return render_template('notFound.html', game_type=game_type, keyword=keyword, hits=hits, page_no=page_no, page_total=page_total, image_folder=dict_image_folder[game_type])
