@@ -29,7 +29,13 @@ def search():
         'query': {
             'multi_match': {
                 'query': keyword,
-                'fields': ['name', 'Bio', 'Type']
+                'type': "most_fields",
+                'fuzziness': "auto",
+                "fuzzy_transpositions": True,
+                'slop': 12,
+                'auto_generate_synonyms_phrase_query': True,
+                'zero_terms_query': "none",
+                'fields': ['Name', 'Bio', 'Type']
             }
         }
     }
