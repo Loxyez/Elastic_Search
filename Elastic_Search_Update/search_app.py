@@ -1,6 +1,6 @@
 from flask import Flask, request
 from markupsafe import escape
-from flask import render_template
+from flask import render_template, send_from_directory
 from elasticsearch import Elasticsearch
 import math
 import os
@@ -14,6 +14,10 @@ ELASTIC_PASSWORD = os.getenv('ELASTIC_PASSWORD')
 
 es = Elasticsearch("https://localhost:5601", http_auth=("elastic", ELASTIC_PASSWORD), verify_certs=False)
 app = Flask(__name__,template_folder='template')
+
+@app.route('/favicon.ico')
+def favicon():
+    return url_for('static', filename='img/favicon.ico')
 
 @app.route('/')
 def index():
