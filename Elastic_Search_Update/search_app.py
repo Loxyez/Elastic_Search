@@ -3,8 +3,14 @@ from markupsafe import escape
 from flask import render_template
 from elasticsearch import Elasticsearch
 import math
+import os
+from dotenv import load_dotenv
 
-ELASTIC_PASSWORD = "Onsonr12354"
+load_dotenv()
+
+ELASTIC_PASSWORD = os.getenv('ELASTIC_PASSWORD')
+
+# ELASTIC_PASSWORD = "Onsonr12354"
 
 es = Elasticsearch("https://localhost:5601", http_auth=("elastic", ELASTIC_PASSWORD), verify_certs=False)
 app = Flask(__name__,template_folder='template')

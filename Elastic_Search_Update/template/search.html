@@ -24,7 +24,10 @@
         
         <div class = "container">
             {% for doc in hits %}
-                <img src="./static/all_hero_img/{{doc['File_name']}}" width=256 height=144><br>
+                <!-- <b>{{doc['File_name']}}</b>
+                <b>{{'img/'+doc['File_name']}}</b> -->
+
+                <img src="{{url_for('static', filename='images/'+image_folder+'/'+doc['File_name'])}}" width=256 height=144><br>
                 <h2>{{ doc['Name'] }}</h2><br>
                 <b>Type: </b>{{doc['Type']}}<br>
                 <b>Skills: </b>{{doc['Skills']}}<br><br>
