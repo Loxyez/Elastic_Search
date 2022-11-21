@@ -7,6 +7,7 @@
         <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
         <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/search.css') }}">
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -26,17 +27,38 @@
           </nav>
         
         <div class = "container">
+            <br><br>
             {% for doc in hits %}
                 <!-- <b>{{doc['File_name']}}</b>
                 <b>{{'img/'+doc['File_name']}}</b> -->
 
-                <img src="{{url_for('static', filename='images/'+image_folder+'/'+doc['File_name'])}}" width=256 height=144><br>
+                <!-- <img src="{{url_for('static', filename='images/'+image_folder+'/'+doc['File_name'])}}" width=256 height=144><br>
                 <h2>{{ doc['Name'] }}</h2><br>
                 <b>Type: </b>{{doc['Type']}}<br>
                 <b>Skills: </b>{{doc['Skills']}}<br><br>
-                <p>{{ doc['Bio'] }}</p>
+                <p>{{ doc['Bio'] }}</p> -->
+
+                <section class="search-result-item">
+                    <a class="image-link" href="/heroDetail/{{game_type}}/{{doc['Name']}}"><img class="image hoverImages" src="{{url_for('static', filename='images/'+image_folder+'/'+doc['File_name'])}}"></a>
+                    <div class="search-result-item-body">
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <h2 class="search-result-item-heading"><a href="/heroDetail/{{game_type}}/{{doc['Name']}}">{{ doc['Name'] }}</a></h2>
+                                <p class="info">{{game_type}}</p>
+                                <p class="description" maxlength="50" >{{ doc['Bio'] }}</p>
+                            </div>
+                            <div class="col-sm-3 text-align-center">
+                                <p class="value3 mt-sm"><b>Type: </b><br>{{doc['Type']}}</p>
+                                <hr>
+                                <p class="value3 mt-sm"><b>Skills: </b><br>{{doc['Skills']}}</p>
+                                <p class="fs-mini text-muted"></p><a class="btn btn-info btn-sm" href="/heroDetail/{{game_type}}/{{doc['Name']}}">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
                 <hr>
             {% endfor %}
+            <br>
         </div>
         <nav aria-label="Page navigation">
             <ul class="pagination justify-content-center">
